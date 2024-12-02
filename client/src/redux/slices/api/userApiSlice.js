@@ -1,0 +1,133 @@
+import { apiSlice } from "../apiSlice";
+const USER_URL="/user"
+export const userApiSlice = apiSlice.injectEndpoints({
+    endpoints:(builder)=>({
+        update:builder.mutation({
+            query:(data)=>({
+                url:`${USER_URL}/profile`,
+                method:"PUT",
+                body:data,
+                credentials:"include"
+            })
+        }),
+         
+        getInactiveList:builder.query({
+            query:({search})=>({
+                url:`${USER_URL}/get-inactive?search=${search}`,
+                method:"GET",
+                credentials:"include"
+            })
+        }),
+        
+        getTraineeList:builder.query({
+            query:({userId})=>({
+                url:`${USER_URL}/int-sup?userId=${userId}`,
+                method:"GET",
+                credentials:"include"
+            })
+        }),
+        getSupervisor:builder.query({
+            query:()=>({
+                url:`${USER_URL}/sup-int`,
+                method:"GET",
+                credentials:"include"
+            })
+        }),
+        getAllUserHistory:builder.query({
+            query:({start,end,search})=>({
+                url:`${USER_URL}/history?start=${start}&end=${end}&search=${search}`,
+                method:"GET",
+                credentials:"include"
+            })
+        }),
+        getAllUser:builder.query({
+            query:({strQuery,isTrashed,search})=>({
+                url:`${USER_URL}?role=${strQuery}&isTrashed=${isTrashed}&search=${search}`,
+                method:"GET",
+                credentials:"include"
+            })
+        }),
+        getUser:builder.query({
+            query:(id)=>({
+                url:`${USER_URL}/find/${id}`,
+                method:"GET",
+                credentials:"include"
+            })
+        }),
+        getAllUserSup:builder.query({
+            query:({strQuery,search})=>({
+                url:`${USER_URL}/suplist?role=${strQuery}&search=${search}`,
+                method:"GET",
+                credentials:"include"
+            })
+        }),
+        deleteUser:builder.mutation({
+            query:(id)=>({
+                url:`${USER_URL}/${id}`,
+                method:"DELETE",
+                credentials:"include"
+            })
+        }),
+        userAction:builder.mutation({
+            query:(data)=>({
+                url:`${USER_URL}/${data.id}`,
+                method:"PUT",
+                body:data,
+                credentials:"include"
+            })
+        }),
+        getNotifications:builder.query({
+            query:()=>({
+                url:`${USER_URL}/notifications`,
+                method:"GET",
+                credentials:"include"
+            })
+        }),
+        markNotiAsRead:builder.mutation({
+            query:(data)=>({
+                url:`${USER_URL}/read-noti?isReadType=${data.type}&id=${data.id}`,
+                method:"PUT",
+                body:data,
+                credentials:"include"
+            })
+        }),
+        changePassword:builder.mutation({
+            query:(data)=>({
+                url:`${USER_URL}/change-password`,
+                method:"PUT",
+                body:data,
+                credentials:"include"
+            })
+        }),
+        adminChangePassword:builder.mutation({
+            query:({data,userId})=>({
+                url:`${USER_URL}/admchangepassword?userId=${userId}`,
+                method:"PUT",
+                body:data,
+                credentials:"include"
+            })
+        }),
+        deleteRestoreUser:builder.mutation({
+            query:({id,actionType})=>({
+                url:`${USER_URL}/delete-restore/${id}?actionType=${actionType}`,
+                method:"DELETE",
+                credentials:"include"
+            })
+        }),
+        getAdminDashboardStats:builder.query({
+            query:()=>({
+                url:`${USER_URL}/admindash`,
+                method:"GET",
+                credentials:"include"
+            })
+        })
+        
+        
+       
+    })
+})
+
+export const {useUpdateMutation,useGetUserQuery,useDeleteUserMutation,useUserActionMutation,useGetAllUserHistoryQuery,useAdminChangePasswordMutation,
+    useGetAllUserSupQuery,useGetAdminDashboardStatsQuery,useGetTraineeListQuery,useGetSupervisorQuery,useGetInactiveListQuery
+    ,useGetNotificationsQuery,useMarkNotiAsReadMutation,useChangePasswordMutation,useGetAllUserQuery,useDeleteRestoreUserMutation} = userApiSlice
+
